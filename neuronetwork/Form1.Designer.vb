@@ -23,7 +23,6 @@ Partial Class Form1
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
 		Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-		Me.Button1 = New System.Windows.Forms.Button()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.Label2 = New System.Windows.Forms.Label()
 		Me.Label3 = New System.Windows.Forms.Label()
@@ -53,11 +52,8 @@ Partial Class Form1
 		Me.Label24 = New System.Windows.Forms.Label()
 		Me.Label25 = New System.Windows.Forms.Label()
 		Me.Label26 = New System.Windows.Forms.Label()
-		Me.Button5 = New System.Windows.Forms.Button()
 		Me.Button6 = New System.Windows.Forms.Button()
 		Me.Button7 = New System.Windows.Forms.Button()
-		Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog()
-		Me.Label27 = New System.Windows.Forms.Label()
 		Me.Label28 = New System.Windows.Forms.Label()
 		Me.Label29 = New System.Windows.Forms.Label()
 		Me.Label30 = New System.Windows.Forms.Label()
@@ -68,7 +64,6 @@ Partial Class Form1
 		Me.Label35 = New System.Windows.Forms.Label()
 		Me.Label36 = New System.Windows.Forms.Label()
 		Me.Label37 = New System.Windows.Forms.Label()
-		Me.Label38 = New System.Windows.Forms.Label()
 		Me.Button8 = New System.Windows.Forms.Button()
 		Me.Label39 = New System.Windows.Forms.Label()
 		Me.Label40 = New System.Windows.Forms.Label()
@@ -82,20 +77,15 @@ Partial Class Form1
 		Me.Label48 = New System.Windows.Forms.Label()
 		Me.Button9 = New System.Windows.Forms.Button()
 		Me.TextBox1 = New System.Windows.Forms.TextBox()
+		Me.Label49 = New System.Windows.Forms.Label()
+		Me.Label50 = New System.Windows.Forms.Label()
+		Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+		Me.Label27 = New System.Windows.Forms.Label()
 		Me.SuspendLayout()
 		'
 		'OpenFileDialog1
 		'
 		Me.OpenFileDialog1.Filter = "所有文件(*.*)|*.*"
-		'
-		'Button1
-		'
-		Me.Button1.Location = New System.Drawing.Point(23, 79)
-		Me.Button1.Name = "Button1"
-		Me.Button1.Size = New System.Drawing.Size(63, 23)
-		Me.Button1.TabIndex = 0
-		Me.Button1.Text = "载入样本"
-		Me.Button1.UseVisualStyleBackColor = True
 		'
 		'Label1
 		'
@@ -189,11 +179,11 @@ Partial Class Form1
 		'
 		'Button3
 		'
-		Me.Button3.Location = New System.Drawing.Point(25, 50)
+		Me.Button3.Location = New System.Drawing.Point(12, 73)
 		Me.Button3.Name = "Button3"
-		Me.Button3.Size = New System.Drawing.Size(61, 23)
+		Me.Button3.Size = New System.Drawing.Size(88, 23)
 		Me.Button3.TabIndex = 13
-		Me.Button3.Text = "选择样本文件"
+		Me.Button3.Text = "选择文件夹"
 		Me.Button3.UseVisualStyleBackColor = True
 		'
 		'Label12
@@ -358,18 +348,9 @@ Partial Class Form1
 		Me.Label26.TabIndex = 31
 		Me.Label26.Text = "整体误差"
 		'
-		'Button5
-		'
-		Me.Button5.Location = New System.Drawing.Point(23, 21)
-		Me.Button5.Name = "Button5"
-		Me.Button5.Size = New System.Drawing.Size(63, 23)
-		Me.Button5.TabIndex = 32
-		Me.Button5.Text = "制作5"
-		Me.Button5.UseVisualStyleBackColor = True
-		'
 		'Button6
 		'
-		Me.Button6.Location = New System.Drawing.Point(109, 211)
+		Me.Button6.Location = New System.Drawing.Point(151, 214)
 		Me.Button6.Name = "Button6"
 		Me.Button6.Size = New System.Drawing.Size(84, 23)
 		Me.Button6.TabIndex = 33
@@ -378,25 +359,12 @@ Partial Class Form1
 		'
 		'Button7
 		'
-		Me.Button7.Location = New System.Drawing.Point(23, 108)
+		Me.Button7.Location = New System.Drawing.Point(23, 102)
 		Me.Button7.Name = "Button7"
 		Me.Button7.Size = New System.Drawing.Size(63, 23)
 		Me.Button7.TabIndex = 35
 		Me.Button7.Text = "计算"
 		Me.Button7.UseVisualStyleBackColor = True
-		'
-		'OpenFileDialog2
-		'
-		Me.OpenFileDialog2.FileName = "OpenFileDialog2"
-		'
-		'Label27
-		'
-		Me.Label27.AutoSize = True
-		Me.Label27.Location = New System.Drawing.Point(213, 175)
-		Me.Label27.Name = "Label27"
-		Me.Label27.Size = New System.Drawing.Size(47, 12)
-		Me.Label27.TabIndex = 36
-		Me.Label27.Text = "Label27"
 		'
 		'Label28
 		'
@@ -488,18 +456,9 @@ Partial Class Form1
 		Me.Label37.TabIndex = 37
 		Me.Label37.Text = "Label37"
 		'
-		'Label38
-		'
-		Me.Label38.AutoSize = True
-		Me.Label38.Location = New System.Drawing.Point(137, 175)
-		Me.Label38.Name = "Label38"
-		Me.Label38.Size = New System.Drawing.Size(47, 12)
-		Me.Label38.TabIndex = 47
-		Me.Label38.Text = "Label38"
-		'
 		'Button8
 		'
-		Me.Button8.Location = New System.Drawing.Point(109, 240)
+		Me.Button8.Location = New System.Drawing.Point(151, 243)
 		Me.Button8.Name = "Button8"
 		Me.Button8.Size = New System.Drawing.Size(84, 23)
 		Me.Button8.TabIndex = 48
@@ -598,7 +557,7 @@ Partial Class Form1
 		'
 		'Button9
 		'
-		Me.Button9.Location = New System.Drawing.Point(204, 211)
+		Me.Button9.Location = New System.Drawing.Point(246, 214)
 		Me.Button9.Name = "Button9"
 		Me.Button9.Size = New System.Drawing.Size(84, 23)
 		Me.Button9.TabIndex = 59
@@ -607,16 +566,46 @@ Partial Class Form1
 		'
 		'TextBox1
 		'
-		Me.TextBox1.Location = New System.Drawing.Point(249, 240)
+		Me.TextBox1.Location = New System.Drawing.Point(291, 243)
 		Me.TextBox1.Name = "TextBox1"
 		Me.TextBox1.Size = New System.Drawing.Size(39, 21)
 		Me.TextBox1.TabIndex = 60
+		'
+		'Label49
+		'
+		Me.Label49.AutoSize = True
+		Me.Label49.Location = New System.Drawing.Point(350, 249)
+		Me.Label49.Name = "Label49"
+		Me.Label49.Size = New System.Drawing.Size(65, 12)
+		Me.Label49.TabIndex = 61
+		Me.Label49.Text = "各标准结果"
+		'
+		'Label50
+		'
+		Me.Label50.AutoSize = True
+		Me.Label50.Location = New System.Drawing.Point(244, 248)
+		Me.Label50.Name = "Label50"
+		Me.Label50.Size = New System.Drawing.Size(47, 12)
+		Me.Label50.TabIndex = 62
+		Me.Label50.Text = "Label50"
+		'
+		'Label27
+		'
+		Me.Label27.AutoSize = True
+		Me.Label27.Location = New System.Drawing.Point(31, 135)
+		Me.Label27.Name = "Label27"
+		Me.Label27.Size = New System.Drawing.Size(47, 12)
+		Me.Label27.TabIndex = 63
+		Me.Label27.Text = "Label27"
 		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.ClientSize = New System.Drawing.Size(834, 275)
+		Me.Controls.Add(Me.Label27)
+		Me.Controls.Add(Me.Label50)
+		Me.Controls.Add(Me.Label49)
 		Me.Controls.Add(Me.TextBox1)
 		Me.Controls.Add(Me.Button9)
 		Me.Controls.Add(Me.Label39)
@@ -630,7 +619,6 @@ Partial Class Form1
 		Me.Controls.Add(Me.Label47)
 		Me.Controls.Add(Me.Label48)
 		Me.Controls.Add(Me.Button8)
-		Me.Controls.Add(Me.Label38)
 		Me.Controls.Add(Me.Label28)
 		Me.Controls.Add(Me.Label29)
 		Me.Controls.Add(Me.Label30)
@@ -641,10 +629,8 @@ Partial Class Form1
 		Me.Controls.Add(Me.Label35)
 		Me.Controls.Add(Me.Label36)
 		Me.Controls.Add(Me.Label37)
-		Me.Controls.Add(Me.Label27)
 		Me.Controls.Add(Me.Button7)
 		Me.Controls.Add(Me.Button6)
-		Me.Controls.Add(Me.Button5)
 		Me.Controls.Add(Me.Label26)
 		Me.Controls.Add(Me.Label25)
 		Me.Controls.Add(Me.Label24)
@@ -674,7 +660,6 @@ Partial Class Form1
 		Me.Controls.Add(Me.Label3)
 		Me.Controls.Add(Me.Label2)
 		Me.Controls.Add(Me.Label1)
-		Me.Controls.Add(Me.Button1)
 		Me.Name = "Form1"
 		Me.Text = "Form1"
 		Me.ResumeLayout(False)
@@ -683,7 +668,6 @@ Partial Class Form1
 	End Sub
 
 	Friend WithEvents OpenFileDialog1 As Windows.Forms.OpenFileDialog
-	Friend WithEvents Button1 As Windows.Forms.Button
 	Friend WithEvents Label1 As Windows.Forms.Label
 	Friend WithEvents Label2 As Windows.Forms.Label
 	Friend WithEvents Label3 As Windows.Forms.Label
@@ -713,11 +697,8 @@ Partial Class Form1
 	Friend WithEvents Label24 As Windows.Forms.Label
 	Friend WithEvents Label25 As Windows.Forms.Label
 	Friend WithEvents Label26 As Windows.Forms.Label
-	Friend WithEvents Button5 As Windows.Forms.Button
 	Friend WithEvents Button6 As Windows.Forms.Button
 	Friend WithEvents Button7 As Windows.Forms.Button
-	Friend WithEvents OpenFileDialog2 As Windows.Forms.OpenFileDialog
-	Friend WithEvents Label27 As Windows.Forms.Label
 	Friend WithEvents Label28 As Windows.Forms.Label
 	Friend WithEvents Label29 As Windows.Forms.Label
 	Friend WithEvents Label30 As Windows.Forms.Label
@@ -728,7 +709,6 @@ Partial Class Form1
 	Friend WithEvents Label35 As Windows.Forms.Label
 	Friend WithEvents Label36 As Windows.Forms.Label
 	Friend WithEvents Label37 As Windows.Forms.Label
-	Friend WithEvents Label38 As Windows.Forms.Label
 	Friend WithEvents Button8 As Windows.Forms.Button
 	Friend WithEvents Label39 As Windows.Forms.Label
 	Friend WithEvents Label40 As Windows.Forms.Label
@@ -742,4 +722,8 @@ Partial Class Form1
 	Friend WithEvents Label48 As Windows.Forms.Label
 	Friend WithEvents Button9 As Windows.Forms.Button
 	Friend WithEvents TextBox1 As Windows.Forms.TextBox
+	Friend WithEvents Label49 As Windows.Forms.Label
+	Friend WithEvents Label50 As Windows.Forms.Label
+	Friend WithEvents FolderBrowserDialog1 As Windows.Forms.FolderBrowserDialog
+	Friend WithEvents Label27 As Windows.Forms.Label
 End Class
