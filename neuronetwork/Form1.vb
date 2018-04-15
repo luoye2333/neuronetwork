@@ -1,63 +1,105 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
+Imports System.Drawing
 Public Class Form1
-	Dim Th2, th3, th4 As Threading.Thread
-	Delegate Sub Formstatus()
+	Dim Th2, th3, th4, th5, th6 As Threading.Thread
+	Delegate Sub FormText()
+	Dim showtext1 As New FormText(AddressOf Stext)
+	Dim showtext2 As New FormText(AddressOf Stext2)
+	Delegate Sub formstatus(i As Integer)
 	Dim shownum As New Formstatus(AddressOf Snum)
-	Dim showtext As New Formstatus(AddressOf Stext)
+	Delegate Sub formpicture(i As Drawing.Image)
+	Dim showpic As New formpicture(AddressOf Spic)
 
 	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
-		Randomize()
-		Randarray(Weight_IH)
-		Randarray(Weight_HO)
+		Initializeweight()
+	End Sub
+
+	'样本训练-----------------------------------
+	'获取路径
+	Dim sampleimagename As String
+	Dim samplelabelname As String
+	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+		OpenFileDialog1.ShowDialog()
+		OpenFileDialog2.ShowDialog()
+		sampleimagename = OpenFileDialog1.FileName
+		samplelabelname = OpenFileDialog2.FileName
 		imagepos = 16
 		labelpos = 8
 	End Sub
+	'读取
+	Dim imagepos As Integer '记录已读取的位置
+	Dim labelpos As Integer
+	Dim answer As Byte
+	Sub Readimage(direction As Integer)
+		Dim line As Byte()
+		Dim imagefile As FileStream =
+			New FileStream(sampleimagename, IO.FileMode.Open)
+		Dim lre As New BinaryReader(imagefile)
+		lre.BaseStream.Position = direction
+		line = lre.ReadBytes(784)
 
-
-	'选择样本路径
-	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-		FolderBrowserDialog1.ShowDialog()
-		imagefilename = FolderBrowserDialog1.SelectedPath
-	End Sub
-
-	Private Sub Readimage(imageindex As Integer)
-		Dim image As Drawing.Bitmap =
-			Drawing.Image.FromFile(imagefilename & "\TestImage_" & imageindex & ".bmp")
+		Dim image As Bitmap = New Bitmap(28, 28)
 		Dim x, y, q As Integer
 		For x = 0 To 27
 			For y = 0 To 27
 				q += 1
-				If image.GetPixel(y, x).R < 128 Then
-					Input(q) = 1
+				'输入转化到0~1上
+				Input(q) = （line(x * 28 + y)） / 255
+				If Input(q) > 0.5 Then
+					image.SetPixel(y, x, Color.Black)
 				End If
 			Next y
 		Next x
+		Invoke(showpic, image)
 
-	End Sub '读取样本
-	Private Sub Judge()
-		CalOut()
-		th4.Abort()
+		imagepos += 784
+		imagefile.Close()
+		lre.Close()
 	End Sub
-	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-
-		For i = 1 To 2744
-			Readimage(i)
-			th4 = New Threading.Thread(AddressOf Judge)
-			th4.Start（）****
-				'下一步修改 循环移至线程内 操作文件使用委托 
-			Dim result As Integer
-			result = Mdata()
-			If Directory.Exists(imagefilename & "\" & result) Then
-			Else
-				Directory.CreateDirectory(imagefilename & "\" & result)
-			End If
-			File.Move(imagefilename & "\TestImage_" & i & ".bmp",
-				imagefilename & "\" & result & "\TestImage_" & i & ".bmp")
-			Label27.Text = i
+	Sub Readlabel(direction As Integer)
+		Dim line As Byte()
+		Dim labelfile As FileStream =
+			New FileStream(samplelabelname, IO.FileMode.Open)
+		Dim lre As New BinaryReader(labelfile)
+		lre.BaseStream.Position = direction
+		line = lre.ReadBytes(1)
+		For i = 0 To 10
+			Sta(i) = 0
 		Next i
-	End Sub
+		Sta(line(0) + 1) = 1
 
+		answer = line(0)
+
+		labelpos += 1
+		labelfile.Close()
+		lre.Close()
+	End Sub
+	Sub Spic(i As Drawing.Image)
+		PictureBox1.Image = i
+	End Sub
+	Private Sub Sampletraining()
+		For i = 1 To 1000
+			Readimage(imagepos)
+			Readlabel(labelpos)
+			CalOut()
+			CalD()
+			ChWeight()
+			CeD()
+			Invoke(shownum, i)
+			Invoke(showtext2)
+		Next i
+		th6.Abort()
+	End Sub
+	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+		th6 = New Threading.Thread(AddressOf Sampletraining)
+		th6.Start()
+	End Sub
+	Private Sub Stext2()
+		Label12.Text = answer
+		Label13.Text = Mdata()
+		Label26.Text = Module1.e
+	End Sub
 
 	'确定结果：最大值
 	Private Function Mdata() As Integer
@@ -71,7 +113,6 @@ Public Class Form1
 		Next i
 		Return b - 1
 	End Function
-
 	'保存网络权值
 	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
 		Dim savefile As String = "E:\360data\重要数据\桌面\neuronetwork\weight.txt"
@@ -104,6 +145,54 @@ Public Class Form1
 		Next i
 		fsave.Close()
 	End Sub
+
+
+	'判断-----------------------------------------
+	'
+	'选择判断文件的路径
+	Public imagefilename As String
+	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+		FolderBrowserDialog1.ShowDialog()
+		imagefilename = FolderBrowserDialog1.SelectedPath
+	End Sub
+	'读取图片转为输入
+	Private Sub Readimage2(imageindex As Integer)
+		Dim image As Drawing.Bitmap =
+			Drawing.Image.FromFile(imagefilename & "\TestImage_" & imageindex & ".bmp")
+		Dim x, y, q As Integer
+		For x = 0 To 27
+			For y = 0 To 27
+				q += 1
+				'输入转化到0~1上
+				Input(q) = （255 - image.GetPixel(y, x).R） / 255
+			Next y
+		Next x
+		image.Dispose()
+	End Sub
+	'判断
+	Private Sub Judge()
+		For i = 1 To 2744
+			Readimage2(i)
+			CalOut()
+			Dim result As Integer
+			result = Mdata()
+			If Directory.Exists(imagefilename & "\" & result) Then
+			Else
+				Directory.CreateDirectory(imagefilename & "\" & result)
+			End If
+			File.Move(imagefilename & "\TestImage_" & i & ".bmp",
+			imagefilename & "\" & result & "\TestImage_" & i & ".bmp")
+			Invoke(shownum, i)
+		Next i
+		th4.Abort()
+	End Sub
+	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+		th4 = New Threading.Thread(AddressOf Judge)
+		th4.Start()
+	End Sub
+
+
+	'标准训练--------------------------------------
 	Public d As Int16
 	Public k(9, 784) As Byte
 	'载入标准训练数据
@@ -119,13 +208,11 @@ Public Class Form1
 			fsave.Close()
 		Next i
 	End Sub
-
-	'Public zd(10) As Double 
-	Dim ans(9) As Byte '每个标准的训练答案
+	Dim ans(9) As Byte '每个标准的答案
 	'一组训练
 	Private Sub Looptraining()
 		For i = 0 To 9
-			zd(i + 1) = 0
+			'zd(i + 1) = 0
 			For j = 1 To 784
 				Input(j) = k(i, j)
 			Next j
@@ -133,7 +220,7 @@ Public Class Form1
 				Sta(j) = 0
 			Next j
 			Sta(i + 1) = 1
-			answer = i
+			'answer = i
 			CalOut()
 			ans(i) = Mdata()
 			'For j = 1 To 10
@@ -144,7 +231,7 @@ Public Class Form1
 		Next i
 
 		CeD()
-		Invoke(showtext)
+		Invoke(showtext1)
 	End Sub
 	Private Sub Stext()
 		Label26.Text = Module1.e
@@ -159,7 +246,6 @@ Public Class Form1
 		Label40.Text = ans(8)
 		Label39.Text = ans(9)
 	End Sub
-
 	'单次训练
 	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
 		Th2 = New Threading.Thread(AddressOf Thread2)
@@ -174,19 +260,21 @@ Public Class Form1
 		th3 = New Threading.Thread(AddressOf Thread3)
 		th3.Start()
 	End Sub
-	Dim number As Integer
 	Private Sub Thread3()
-		number = 0
+		Dim number As Integer = 0
 		For i = 1 To Val(TextBox1.Text)
 			Looptraining()
 			number += 1
-			Invoke(shownum)
+			Invoke(shownum, number)
 		Next i
 		th3.Abort()
 	End Sub
-	Private Sub Snum()
-		Label50.Text = Convert.ToString(number)
+
+	'被委托方法
+	Private Sub Snum(i As Integer)
+		Label50.Text = i
 	End Sub
+
 
 
 
@@ -212,20 +300,7 @@ Public Class Form1
 	'	Sta(Val(p) + 1) = 1
 	'	answer = Val(p)
 	'End Sub
-	'Sub Readlabel(direction As Integer)
-	'	Dim line As Byte()
-	'	Dim labelfile As IO.FileStream =
-	'		New IO.FileStream(labelfilename, IO.FileMode.Open)
-	'	Dim lre As New IO.BinaryReader(labelfile)
-	'	lre.BaseStream.Position = direction
-	'	line = lre.ReadBytes(1)
-	'	Sta.Initialize()
-	'	Sta(line(0) + 1) = 1
-	'	answer = line(0)
-	'	labelpos += 1
-	'	labelfile.Close()
-	'	lre.Close()
-	'End Sub '读取答案
+
 	'Private Sub C()
 
 

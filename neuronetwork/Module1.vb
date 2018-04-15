@@ -18,11 +18,7 @@
 	Public DHide(NHide) As Double
 	Public Sta(NOutput) As Byte
 	Public e As Double '全局误差
-	Public imagefilename As String
-	Public labelfilename As String
-	Public imagepos As Integer
-	Public labelpos As Integer
-	Public answer As Byte
+
 
 	'所有过程
 	Sub MainC()
@@ -30,6 +26,13 @@
 		CalD()
 		ChWeight()
 		CeD()
+	End Sub
+
+	'初始化权值
+	Sub Initializeweight()
+		Randomize()
+		Randarray(Weight_IH)
+		Randarray(Weight_HO)
 	End Sub
 	Sub Randarray(ByRef a(,) As Double)
 		Dim l1 As Integer = UBound(a, 1)
@@ -39,7 +42,7 @@
 				a(i, j) = Rnd() * 2 - 1
 			Next j
 		Next i
-	End Sub '初始化权值
+	End Sub
 
 	Function FuncS(x As Double, k As Double) As Double
 		Dim t As Double = x / k
@@ -88,9 +91,9 @@
 		If x < 10 ^ -2 Then
 			Return 0.1
 		ElseIf x < 10 ^ -1 Then
-			Return 10 ^ -2
+			Return 0.05
 		Else
-			Return 10 ^ -2 / x
+			Return 5 * 10 ^ -3 / x
 		End If
 	End Function '根据输出确定学习速率
 	Sub ChWeight()
