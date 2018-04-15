@@ -79,7 +79,7 @@ Public Class Form1
 		PictureBox1.Image = i
 	End Sub
 	Private Sub Sampletraining()
-		For i = 1 To 1000
+		For i = 1 To 200
 			Readimage(imagepos)
 			Readlabel(labelpos)
 			CalOut()
